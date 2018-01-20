@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   View,
   Linking,
-  Button
+  Button,
 } from 'react-native';
 import { WebBrowser, Constants } from 'expo';
+import qs from 'qs';
 
 import { MonoText } from '../components/StyledText';
 
@@ -26,7 +27,7 @@ export default class HomeScreen extends React.Component {
   _openWebBrowserAsync = async () => {
     this._addLinkingListener();
     let result = await WebBrowser.openBrowserAsync(
-      `https://my-pulse.herokuapp.com/login/ig?deepLink=exp://exp.host/@karaggeorge/mypulse`
+      `https://my-pulse.herokuapp.com/login/ig?deepLink=${Constants.linkingUri}`
     );
 
     this._removeLinkingListener();
@@ -44,8 +45,7 @@ export default class HomeScreen extends React.Component {
   _handleRedirect = event => {
     WebBrowser.dismissBrowser();
 
-    alert(event.url);
-    let query = event.url.replace('exp://exp.host/@karaggeorge/mypulse', '');
+    let query = event.url.replace(Constants.linkingUri, '');
     let data;
     if (query) {
       data = qs.parse(query);
@@ -53,7 +53,6 @@ export default class HomeScreen extends React.Component {
       data = null;
     }
 
-    alert(data);
     this.setState({ redirectData: data });
   };
 
