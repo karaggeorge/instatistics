@@ -7,14 +7,62 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
+  Button
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { WebBrowser, Constants } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
+  };
+
+  state = {
+    redirectData: null,
+  };
+
+  _openWebBrowserAsync = async () => {
+    this._addLinkingListener();
+    let result = await WebBrowser.openBrowserAsync(
+      `https://my-pulse.herokuapp.com/login/ig?deepLink=exp://exp.host/@karaggeorge/mypulse`
+    );
+
+    this._removeLinkingListener();
+    this.setState({ result });
+  }
+
+  _addLinkingListener = () => {
+    Linking.addEventListener('url', this._handleRedirect);
+  };
+
+  _removeLinkingListener = () => {
+    Linking.removeEventListener('url', this._handleRedirect);
+  };
+
+  _handleRedirect = event => {
+    WebBrowser.dismissBrowser();
+
+    alert(event.url);
+    let query = event.url.replace('exp://exp.host/@karaggeorge/mypulse', '');
+    let data;
+    if (query) {
+      data = qs.parse(query);
+    } else {
+      data = null;
+    }
+
+    alert(data);
+    this.setState({ redirectData: data });
+  };
+
+  _maybeRenderRedirectData = () => {
+    if (!this.state.redirectData) {
+      return;
+    }
+
+    return <Text>{JSON.stringify(this.state.redirectData)}</Text>;
   };
 
   render() {
@@ -35,11 +83,15 @@ export default class HomeScreen extends React.Component {
           <View style={styles.getStartedContainer}>
             {this._maybeRenderDevelopmentModeWarning()}
 
-            <Text style={styles.getStartedText}>Get started by opening</Text>
+            <Text style={styles.getStartedText}>NEWER</Text>
 
             <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
               <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
             </View>
+
+            <Button title='LOGIN' onPress={this._openWebBrowserAsync} />
+
+            {this._maybeRenderRedirectData()}
 
             <Text style={styles.getStartedText}>
               Hello There

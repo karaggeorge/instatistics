@@ -1,13 +1,48 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font } from 'expo';
+import { Platform, StatusBar, StyleSheet, View, Linking } from 'react-native';
+import { AppLoading, Asset, Font, Constants } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import qs from 'qs';
 
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+
+  componentDidMount() {
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        // this.navigate(url);
+        alert('Got ' + url);
+      });
+    } else {
+      // Linking.addEventListener('url', this.handleOpenURL);
+    }
+  }
+
+  // componentWillUnmount() {
+  //   Linking.removeEventListener('url', this.handleOpenURL);
+  // }
+  //
+  // handleOpenURL = (event) => {
+  //   this.navigate(event.url);
+  // }
+  //
+  // navigate = (url) => {
+  //   console.log('url is', url);
+  //   console.log('constant is ', Constants.linkingUri.slice(0,-2));
+  //   // alert(url);
+  //   alert(Constants.linkingUri);
+  //   alert('hello');
+  //   const queryString = url.replace(Constants.linkingUri.slice(0,-2), '');
+  //   // alert(queryString);
+  //   console.log(queryString);
+  //   if (queryString) {
+  //     const data = qs.parse(queryString);
+  //     alert(`Linked to app with data: ${JSON.stringify(data)}`);
+  //   }
+  // }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
