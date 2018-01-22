@@ -1,14 +1,31 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, Linking } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Linking, Text } from 'react-native';
 import { AppLoading, Asset, Font, Constants } from 'expo';
+import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import LoginScreen from './screens/LoginScreen';
 import qs from 'qs';
+import Api from './services/api';
+import store, { persistor } from './redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+
+  componentDidMount() {
+    Api.addTokenListener(this._updateToken);
+  }
+
+  componentWillUnmount() {
+    Api.removeTokenListener(this._updateToken);
+  }
+
+  _updateToken = (token) => {
+    this.setState({ token });
+  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -19,15 +36,23 @@ export default class App extends React.Component {
           onFinish={this._handleFinishLoading}
         />
       );
-    } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-          <RootNavigation />
-        </View>
-      );
     }
+
+    return (
+      <View style={styles.container}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <MainComponent token={this.state.token} />
+          </PersistGate>
+        </Provider>
+      </View>
+    );
+  }
+
+  _checkToken = async () => {
+    this.setState({
+      token: await Api.getToken()
+    });
   }
 
   _loadResourcesAsync = async () => {
@@ -43,6 +68,7 @@ export default class App extends React.Component {
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       }),
+      this._checkToken(),
     ]);
   };
 
@@ -55,6 +81,18 @@ export default class App extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
+}
+
+const MainComponent = ({ token }) => {
+  if(!token) {
+    return (<LoginScreen />);
+  }
+
+  return (
+    <View style={styles.container}>
+      <RootNavigation />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

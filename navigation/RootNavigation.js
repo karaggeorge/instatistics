@@ -4,12 +4,17 @@ import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import SettingsScreen from '../screens/SettingsScreen';
+import navigation from '../services/navigation';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
     },
+    Settings: {
+      screen: SettingsScreen,
+    }
   },
   {
     navigationOptions: () => ({
@@ -30,7 +35,7 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    return <RootStackNavigator />;
+    return <RootStackNavigator ref={ref => { navigation.setContainer(ref) }} />;
   }
 
   _registerForPushNotifications() {

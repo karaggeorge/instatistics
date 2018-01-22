@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
@@ -10,9 +10,11 @@ import LinksScreen from '../screens/LinksScreen';
 import UnfollowersScreen from '../screens/UnfollowersScreen';
 import FansScreen from '../screens/FansScreen';
 import PulseScreen from '../screens/PulseScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import BotsScreen from '../screens/BotsScreen';
 
-export default TabNavigator(
+import Header from '../components/Header';
+
+const Tabs = TabNavigator(
   {
     Home: {
       screen: HomeScreen,
@@ -27,7 +29,7 @@ export default TabNavigator(
       screen: PulseScreen,
     },
     Bots: {
-      screen: SettingsScreen,
+      screen: BotsScreen,
     },
   },
   {
@@ -64,6 +66,7 @@ export default TabNavigator(
           />
         );
       },
+      header: null,
     }),
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
@@ -71,3 +74,22 @@ export default TabNavigator(
     swipeEnabled: true,
   }
 );
+
+export default class MainTabNavigator extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+
+  _goToSettings = () => {
+    this.props.navigation.navigate('Settings');
+  }
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <Header goToSettings={this._goToSettings} />
+        <Tabs />
+      </View>
+    )
+  }
+};
