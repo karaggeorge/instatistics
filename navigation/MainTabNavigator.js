@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import UnfollowersScreen from '../screens/UnfollowersScreen';
+import FollowersScreen from '../screens/FollowersScreen';
 import FansScreen from '../screens/FansScreen';
 import PulseScreen from '../screens/PulseScreen';
 import BotsScreen from '../screens/BotsScreen';
@@ -21,7 +21,7 @@ const Tabs = TabNavigator(
       screen: HomeScreen,
     },
     Followers: {
-      screen: UnfollowersScreen,
+      screen: FollowersScreen,
     },
     Fans: {
       screen: FansScreen,
