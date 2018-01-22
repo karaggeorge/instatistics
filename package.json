@@ -12,6 +12,7 @@
     "expo": "^25.0.0",
     "got": "^8.0.2",
     "lodash": "^4.17.4",
+    "native-base": "^2.3.7",
     "qs": "^6.5.1",
     "react": "16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",

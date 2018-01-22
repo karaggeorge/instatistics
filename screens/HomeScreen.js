@@ -5,10 +5,12 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import { Container, Header, Left, Right, Body, Button, Icon, Title, StyleProvider } from 'native-base';
 
 import Api from '../services/api';
 import Profile from '../components/Profile';
 import LogoutButton from '../components/LogoutButton';
+import getTheme from '../native-base-theme/components';
 
 export default class HomeScreen extends React.Component {
   _logout = () => {
@@ -17,9 +19,21 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <StyleProvider style={getTheme()}>
+      <Container>
+        <Header>
+          <Body center>
+            <Title>Header</Title>
+          </Body>
+          <Right>
+            <Button transparent>
+              <Icon name='menu' />
+            </Button>
+          </Right>
+        </Header>
         <Profile />
-      </View>
+      </Container>
+    </StyleProvider>
     );
   }
 }

@@ -12,6 +12,7 @@ import FansScreen from '../screens/FansScreen';
 import PulseScreen from '../screens/PulseScreen';
 import BotsScreen from '../screens/BotsScreen';
 
+import { Footer, FooterTab, Icon, Button, Text } from 'native-base';
 import Header from '../components/Header';
 
 const Tabs = TabNavigator(
@@ -19,13 +20,13 @@ const Tabs = TabNavigator(
     Home: {
       screen: HomeScreen,
     },
-    Unfollowers: {
+    Followers: {
       screen: UnfollowersScreen,
     },
     Fans: {
       screen: FansScreen,
     },
-    Pulse: {
+    Statistics: {
       screen: PulseScreen,
     },
     Bots: {
@@ -33,47 +34,50 @@ const Tabs = TabNavigator(
     },
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        switch (routeName) {
-          case 'Home':
-            iconName =
-              Platform.OS === 'ios'
-                ? `ios-information-circle${focused ? '' : '-outline'}`
-                : 'md-information-circle';
-            break;
-          case 'Unfollowers':
-            iconName = Platform.OS === 'ios' ? `ios-sad${focused ? '' : '-outline'}` : 'md-sad';
-            break;
-          case 'Fans':
-            iconName = Platform.OS === 'ios' ? `ios-people${focused ? '' : '-outline'}` : 'md-people';
-            break;
-          case 'Pulse':
-            iconName = Platform.OS === 'ios' ? `ios-pulse${focused ? '' : '-outline'}` : 'md-pulse';
-            break;
-          case 'Bots':
-            iconName =
-              Platform.OS === 'ios' ? `ios-nuclear${focused ? '' : '-outline'}` : 'md-nuclear';
-        }
-        return (
-          <Ionicons
-            name={iconName}
-            size={28}
-            style={{ marginBottom: -3 }}
-            color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-          />
-        );
-      },
-      header: null,
-    }),
-    tabBarComponent: TabBarBottom,
+    tabBarComponent: props => {
+      console.log(props.navigationState);
+      return (
+        <Footer>
+          <FooterTab>
+            <Tab
+              route='Home'
+              navigation={props.navigation}
+              icon="paper" />
+            <Tab
+              route='Followers'
+              navigation={props.navigation}
+              icon="people" />
+            <Tab
+              route='Statistics'
+              navigation={props.navigation}
+              icon="pulse" />
+            <Tab
+              route='Bots'
+              navigation={props.navigation}
+              icon="outlet" />
+          </FooterTab>
+        </Footer>
+      );
+    },
     tabBarPosition: 'bottom',
-    animationEnabled: true,
+    animationEnabled: false,
     swipeEnabled: true,
   }
 );
+
+const Tab = ({ icon, route, title, navigation }) => {
+  const active = navigation.state.routes[navigation.state.index].routeName === route;
+
+  return (
+    <Button
+      vertical
+      active={active}
+      onPress={() => navigation.navigate(route)}>
+      <Icon name={icon} active={active} />
+      <Text>{title || route}</Text>
+    </Button>
+  );
+}
 
 export default class MainTabNavigator extends React.Component {
   static navigationOptions = {
@@ -84,10 +88,11 @@ export default class MainTabNavigator extends React.Component {
     this.props.navigation.navigate('Settings');
   }
 
+  // <Header goToSettings={this._goToSettings} />
+
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header goToSettings={this._goToSettings} />
         <Tabs />
       </View>
     )

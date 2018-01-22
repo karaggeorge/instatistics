@@ -9,6 +9,8 @@ import qs from 'qs';
 import Api from './services/api';
 import store, { persistor } from './redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import { Container, StyleProvider } from 'native-base';
+import getTheme from './native-base-theme/components';
 
 export default class App extends React.Component {
   state = {
@@ -67,6 +69,8 @@ export default class App extends React.Component {
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        'Roboto': require('native-base/Fonts/Roboto.ttf'),
+        'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
       }),
       this._checkToken(),
     ]);
@@ -89,9 +93,11 @@ const MainComponent = ({ token }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <RootNavigation />
-    </View>
+    <StyleProvider style={getTheme()}>
+      <Container>
+        <RootNavigation />
+      </Container>
+    </StyleProvider>
   );
 }
 
