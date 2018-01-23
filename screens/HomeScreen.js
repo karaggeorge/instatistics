@@ -5,7 +5,7 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import { Container, Header, Left, Right, Body, Button, Icon, Title, StyleProvider } from 'native-base';
+import { Container, Header, Content, Left, Right, Body, Button, Icon, Title, StyleProvider } from 'native-base';
 
 import Api from '../services/api';
 import Profile from '../components/Profile';
@@ -13,27 +13,28 @@ import LogoutButton from '../components/LogoutButton';
 import getTheme from '../native-base-theme/components';
 
 export default class HomeScreen extends React.Component {
-  _logout = () => {
-    Api.deleteToken();
-  }
+  static navigationOptions = {
+    header: null
+  };
 
   render() {
+    const { navigation } = this.props;
+
     return (
-      <StyleProvider style={getTheme()}>
       <Container>
         <Header>
+          <Left />
           <Body center>
             <Title>Header</Title>
           </Body>
           <Right>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
+              <Icon name='settings' onPress={() => navigation.navigate('Settings')}/>
           </Right>
         </Header>
-        <Profile />
+        <Content>
+          <Profile />
+        </Content>
       </Container>
-    </StyleProvider>
     );
   }
 }

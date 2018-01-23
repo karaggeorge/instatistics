@@ -4,7 +4,8 @@ import { Footer, FooterTab, Icon, Button, Text } from 'native-base';
 
 import Colors from '../constants/Colors';
 
-import HomeScreen from '../screens/HomeScreen';
+import DashboardNavigation from './DashboardNavigation';
+
 import FollowersScreen from '../screens/FollowersScreen';
 import PulseScreen from '../screens/PulseScreen';
 import BotsScreen from '../screens/BotsScreen';
@@ -14,7 +15,7 @@ import BotsScreen from '../screens/BotsScreen';
 export default TabNavigator(
   {
     Dashboard: {
-      screen: HomeScreen,
+      screen: DashboardNavigation,
     },
     Followers: {
       screen: FollowersScreen,

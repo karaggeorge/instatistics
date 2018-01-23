@@ -3,7 +3,7 @@ import { Platform, StatusBar, StyleSheet, View, Linking, Text } from 'react-nati
 import { AppLoading, Asset, Font, Constants } from 'expo';
 import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import RootNavigation from './navigation/RootNavigation';
+import MainTabNavigator from './navigation/MainTabNavigator';
 import LoginScreen from './screens/LoginScreen';
 import qs from 'qs';
 import Api from './services/api';
@@ -95,7 +95,7 @@ const MainComponent = ({ token }) => {
   return (
     <StyleProvider style={getTheme()}>
       <Container>
-        <RootNavigation />
+        <MainTabNavigator />
       </Container>
     </StyleProvider>
   );
