@@ -1,30 +1,23 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
+import { Footer, FooterTab, Icon, Button, Text } from 'native-base';
 
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import FollowersScreen from '../screens/FollowersScreen';
-import FansScreen from '../screens/FansScreen';
 import PulseScreen from '../screens/PulseScreen';
 import BotsScreen from '../screens/BotsScreen';
 
-import { Footer, FooterTab, Icon, Button, Text } from 'native-base';
-import Header from '../components/Header';
 
-const Tabs = TabNavigator(
+
+export default TabNavigator(
   {
-    Home: {
+    Dashboard: {
       screen: HomeScreen,
     },
     Followers: {
       screen: FollowersScreen,
-    },
-    Fans: {
-      screen: FansScreen,
     },
     Statistics: {
       screen: PulseScreen,
@@ -34,15 +27,17 @@ const Tabs = TabNavigator(
     },
   },
   {
+    navigationOptions: {
+      header: null,
+    },
     tabBarComponent: props => {
-      console.log(props.navigationState);
       return (
         <Footer>
           <FooterTab>
             <Tab
-              route='Home'
+              route='Dashboard'
               navigation={props.navigation}
-              icon="paper" />
+              icon="organization" />
             <Tab
               route='Followers'
               navigation={props.navigation}
@@ -50,17 +45,17 @@ const Tabs = TabNavigator(
             <Tab
               route='Statistics'
               navigation={props.navigation}
-              icon="pulse" />
+              icon="graph" />
             <Tab
               route='Bots'
               navigation={props.navigation}
-              icon="outlet" />
+              icon="ghost" />
           </FooterTab>
         </Footer>
       );
     },
     tabBarPosition: 'bottom',
-    animationEnabled: false,
+    animationEnabled: true,
     swipeEnabled: true,
   }
 );
@@ -77,24 +72,4 @@ const Tab = ({ icon, route, title, navigation }) => {
       <Text>{title || route}</Text>
     </Button>
   );
-}
-
-export default class MainTabNavigator extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
-
-  _goToSettings = () => {
-    this.props.navigation.navigate('Settings');
-  }
-
-  // <Header goToSettings={this._goToSettings} />
-
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <Tabs />
-      </View>
-    )
-  }
 };

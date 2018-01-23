@@ -127,6 +127,9 @@ export default (variables = variable) => {
       },
     },
     "NativeBase.Left": {
+      "NativeBase.Icon": {
+        color: '#fff',
+      },
       "NativeBase.Button": {
         ".hasText": {
           marginLeft: -10,
@@ -190,7 +193,8 @@ export default (variables = variable) => {
         alignSelf: null,
         paddingHorizontal: variables.buttonPadding,
       },
-      flex: platform === "ios" && platformStyle !== "material" ? 1 : 0.5,
+      flex: 0,
+      paddingRight: 20,
       alignSelf: "center",
       alignItems: "flex-start",
     },
@@ -221,6 +225,9 @@ export default (variables = variable) => {
       },
     },
     "NativeBase.Right": {
+      "NativeBase.Icon": {
+        color: '#fff',
+      },
       "NativeBase.Button": {
         ".hasText": {
           height: 30,
@@ -294,7 +301,7 @@ export default (variables = variable) => {
     },
     backgroundColor: variables.toolbarDefaultBg,
     flexDirection: "row",
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     justifyContent: "center",
     paddingTop: platform === "ios" ? (variables.isIphoneX ? 39 : 15) : StatusBar.currentHeight,
     borderBottomWidth: platform === "ios" ? 1 / PixelRatio.getPixelSizeForLayoutSize(1) : 0,

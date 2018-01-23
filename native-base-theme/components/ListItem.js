@@ -223,6 +223,15 @@ export default (variables = variable) => {
       top: 1
     },
 
+    ".selected" :{
+      backgroundColor: 'rgba(0, 0, 0, 0.15)',
+      "NativeBase.Right": {
+        "NativeBase.Icon": {
+          color: '#66c2a5',
+        },
+      },
+    },
+
     ".avatar": {
       "NativeBase.Left": {
         flex: 0
@@ -243,9 +252,13 @@ export default (variables = variable) => {
             fontSize: variables.noteFontSize - 2
           }
         },
+        "NativeBase.Icon": {
+          fontSize: 25,
+        },
         flex: 0,
-        paddingRight: variables.listItemPadding + 5,
+        paddingRight: variables.listItemPadding + 20,
         alignSelf: "stretch",
+        justifyContent: 'center',
         paddingVertical: variables.listItemPadding,
         borderBottomWidth: variables.borderWidth,
         borderColor: variables.listBorderColor
@@ -397,7 +410,7 @@ export default (variables = variable) => {
     flexDirection: "row",
     paddingRight: variables.listItemPadding + 5,
     paddingVertical: variables.listItemPadding + 3,
-    marginLeft: variables.listItemPadding + 5,
+    paddingLeft: variables.listItemPadding + 5,
     borderBottomWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
     backgroundColor: variables.listBg,
     borderColor: variables.listBorderColor
